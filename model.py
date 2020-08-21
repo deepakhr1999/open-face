@@ -246,3 +246,38 @@ def img_to_encoding(path, model):
     x_train = np.array([img])
     y = model.predict_on_batch(x_train)
     return y[0]
+
+def who_is_it(img, database, model):
+    x_train = np.array([img])
+    encoding = model.predict_on_batch(x_train)
+    min_dist = float('inf')
+    identity = 'unknown'
+    for (name, db_enc) in database.items():
+        dist = np.linalg.norm(db_enc - encoding)
+        if dist < min_dist:
+            min_dist = dist
+            identity = name
+    
+    # print ("it's " + str(identity) + ", the distance is " + str(min_dist))
+
+    return min_dist, identity
+
+def load_database():
+    FRmodel = get_model('model_weights.pkl')
+    database = {}
+    database["danielle"] = img_to_encoding("images/danielle.png", FRmodel)
+    database["younes"] = img_to_encoding("images/younes.jpg", FRmodel)
+    database["tian"] = img_to_encoding("images/tian.jpg", FRmodel)
+    database["andrew"] = img_to_encoding("images/andrew.jpg", FRmodel)
+    database["kian"] = img_to_encoding("images/kian.jpg", FRmodel)
+    database["dan"] = img_to_encoding("images/dan.jpg", FRmodel)
+    database["sebastiano"] = img_to_encoding("images/sebastiano.jpg", FRmodel)
+    database["bertrand"] = img_to_encoding("images/bertrand.jpg", FRmodel)
+    database["kevin"] = img_to_encoding("images/kevin.jpg", FRmodel)
+    database["felix"] = img_to_encoding("images/felix.jpg", FRmodel)
+    database["benoit"] = img_to_encoding("images/benoit.jpg", FRmodel)
+    database["arnaud"] = img_to_encoding("images/arnaud.jpg", FRmodel)
+    database['deepak'] = img_to_encoding('images/deepak.jpg', FRmodel)
+    database['ramachandra'] = img_to_encoding('images/ramachandra.jpg', FRmodel)
+    print("Initialized database.")
+    return FRmodel, database

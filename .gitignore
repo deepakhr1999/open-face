@@ -1,0 +1,6 @@
+*.npy
+images/*
+uncropped/*
+__pycache__/*
+.ipynb_checkpoints/*
+.vs/*
